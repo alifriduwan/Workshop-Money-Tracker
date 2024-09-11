@@ -17,6 +17,7 @@ const transections = dataTransection;
 
 function init(){
     transections.forEach(addDataToList)
+    calculateMoney()
 }
 
 function addDataToList(transections){
@@ -29,6 +30,18 @@ function addDataToList(transections){
     item.classList.add(status)
     console.log(item)
     list.appendChild(item)
+}
+
+function calculateMoney(){
+    const amounts = transections.map(transections => transections.amount)
+    const total = amounts.reduce((result,item) => (result += item),0).toFixed(2)
+    const income = amounts.filter(item => item > 0).reduce((result,item) => (result += item),0).toFixed(2)
+    const expense = (amounts.filter(item => item < 0).reduce((result, item)=>(result += item),0)*-1).toFixed(2)
+    
+
+    balance.innerText = `฿${total}`
+    money_plus.innerText = `฿${income}`
+    money_minus.innerText = `฿${expense}`
 }
 
 init();
