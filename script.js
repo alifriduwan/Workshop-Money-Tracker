@@ -24,12 +24,17 @@ function addDataToList(transections){
     const symbol = transections.amount < 0 ? '-' : '+';
     const status = transections.amount < 0 ? 'minus' : 'plus';
     const item = document.createElement('li')
+    result = formatNumber(Math.abs(transections.amount))
 
-    item.innerHTML = `${transections.text} <span>${symbol} ${Math.abs(transections.amount)}</span>
+    item.innerHTML = `${transections.text} <span>${symbol} ${result}</span>
                 <button class="delete-btn">x</button>`
     item.classList.add(status)
     console.log(item)
     list.appendChild(item)
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
 function calculateMoney(){
@@ -39,9 +44,9 @@ function calculateMoney(){
     const expense = (amounts.filter(item => item < 0).reduce((result, item)=>(result += item),0)*-1).toFixed(2)
     
 
-    balance.innerText = `฿${total}`
-    money_plus.innerText = `฿${income}`
-    money_minus.innerText = `฿${expense}`
+    balance.innerText = `฿` + formatNumber(total)
+    money_plus.innerText = `฿` + formatNumber(income)
+    money_minus.innerText = `฿` + formatNumber(expense)
 }
 
 init();
