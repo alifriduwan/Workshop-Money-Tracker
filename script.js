@@ -13,9 +13,10 @@ const dataTransection = [
     {id:3, text: "เงินเดือน", amount: +28000},
 ]
 
-const transections = dataTransection;
+let transections = dataTransection;
 
 function init(){
+    list.innerHTML = "";
     transections.forEach(addDataToList)
     calculateMoney()
 }
@@ -27,7 +28,7 @@ function addDataToList(transections){
     result = formatNumber(Math.abs(transections.amount))
 
     item.innerHTML = `${transections.text} <span>${symbol} ${result}</span>
-                <button class="delete-btn">x</button>`
+                <button class="delete-btn" onclick="removeData(${transections.id})">x</button>`
     item.classList.add(status)
     console.log(item)
     list.appendChild(item)
@@ -70,6 +71,12 @@ function addTransection(e) {
         amount.value = '';
     }
 }
+
+function removeData(id){
+    transections = transections.filter(transections => transections.id !== id)
+    init();
+}
+
 
 form.addEventListener('submit', addTransection)
 
