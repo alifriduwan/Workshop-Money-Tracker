@@ -37,6 +37,10 @@ function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
+function autoId() {
+    return Math.floor(Math.random() * 1000000)
+}
+
 function calculateMoney(){
     const amounts = transections.map(transections => transections.amount)
     const total = amounts.reduce((result,item) => (result += item),0).toFixed(2)
@@ -48,5 +52,25 @@ function calculateMoney(){
     money_plus.innerText = `฿` + formatNumber(income)
     money_minus.innerText = `฿` + formatNumber(expense)
 }
+
+function addTransection(e) {
+    e.preventDefault();
+    if(text.value.trim() === '' || amount.value.trim() === ''){
+        alert("กรุณาป้อนข้อมูลให้ครบถ้วน")
+    }else{
+        const data = {
+            id:autoId(),
+            text: text.value,
+            amount: +amount.value
+        }
+        transections.push(data)
+        addDataToList(data)
+        calculateMoney();
+        text.value = '';
+        amount.value = '';
+    }
+}
+
+form.addEventListener('submit', addTransection)
 
 init();
